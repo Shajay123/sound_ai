@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact List</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+        .content-cell {
+            max-width: 200px;
+            overflow: hidden;
+        }
+        .content-cell div {
+            white-space: pre-wrap;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .read-more {
+            color: blue;
+            cursor: pointer;
+        }
+        .btn-pending {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: black;
+        }
+        .btn-pending:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+        .btn-sent {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+        .btn-sent:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .emoji {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0 text-center">List of Detail <span class="emoji">📋</span></h2>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">S.No <span class="emoji">🔢</span></th>
+                            <th scope="col">Name <span class="emoji">👤</span></th>
+                            <th scope="col">Email <span class="emoji">📧</span></th>
+                            <th scope="col">Phone Number <span class="emoji">📞</span></th>
+                            <th scope="col">language <span class="emoji">🗣️</span></th>
+                            <th scope="col">Created At <span class="emoji">📅</span></th>
+                            <th scope="col">Content <span class="emoji">📝</span></th>
+                            <th scope="col">Status <span class="emoji">⚙️</span></th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in page_obj %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter0|add:page_obj.start_index }}</th>
+                            <td>{{ contact.name }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>{{ contact.phone_number }}</td>
+                            <td>{{ contact.language }}</td>
+                            <td>{{ contact.created_at|date:"Y-m-d H:i:s" }}</td>
+                            <td class="content-cell">
+                                <div class="content-short truncate">
+                                    {{ contact.content|truncatewords:20 }}
+                                </div>
+                                <div class="content-full d-none">{{ contact.content }}</div>
+                                <button type="button" class="btn btn-link read-more" data-toggle="modal" data-target="#contentModal{{ contact.id }}">Read More</button>
+                            </td>
+                            <td>
+                                {% if contact.status == 'Pending' %}
+                                    <button type="button" class="btn btn-pending" data-contact-id="{{ contact.id }}" onclick="markAsSent(this)">Pending</button>
+                                {% else %}
+                                    <button type="button" class="btn btn-sent" data-contact-id="{{ contact.id }}" disabled>Sent</button>
+                                {% endif %}
+                            </td>
+                            
+                        </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="contentModal{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel{{ contact.id }}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="contentModalLabel{{ contact.id }}">Full Content</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p id="modalContent{{ contact.id }}">{{ contact.content }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.read-more').on('click', function() {
+                var $this = $(this);
+                var content = $this.siblings('.content-full').text();
+                
+                // Set the content in the modal
+                $('#modalContent').text(content);
+                
+                // Show the modal
+                $('#contentModal').modal('show');
+            });
+
+            // Close the modal when the close button or outside the modal is clicked
+            $('.close, .modal').on('click', function() {
+                $('#contentModal').modal('hide');
+            });
+        });
+
+        function markAsSent(button) {
+            var contactId = $(button).data('contact-id');
+            $.ajax({
+                url: '/sound/update_status/' + contactId + '/',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        button.classList.remove('btn-pending');
+                        button.classList.add('btn-sent');
+                        button.textContent = 'Sent';
+                        button.disabled = true; // Disable the button after status update
+                    } else {
+                        alert('Failed to update status');
+                    }
+                },
+                error: function() {
+                    alert('Failed to update status');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
