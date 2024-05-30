@@ -185,7 +185,7 @@
         function markAsSent(button) {
             var contactId = $(button).data('contact-id');
             $.ajax({
-                url: '/sound/update_status/' + contactId + '/',
+                url: '/update_status/' + contactId + '/',
                 type: 'POST',
                 headers: {
                     'X-CSRFToken': '{{ csrf_token }}'
