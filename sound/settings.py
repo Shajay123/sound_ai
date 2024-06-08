@@ -74,16 +74,26 @@ WSGI_APPLICATION = 'sound.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'contact_db',
-        'USER':'root 2',
-        'PASSWORD':'UQ6tfhrSMXa[Vc6a',
-        'HOST':'localhost',
-        'PORT' : '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'contact_db',
+#         'USER':'root 2',
+#         'PASSWORD':'UQ6tfhrSMXa[Vc6a',
+#         'HOST':'localhost',
+#         'PORT' : '3306',
+#     }
+# }
 
 
 # Password validation
