@@ -1,29 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Form</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- CSS FILES -->        
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-        
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
-                    
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-
-    <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
-
-    <link href="{% static 'css/templatemo-topic-listing.css' %}" rel="stylesheet">      
-
-    
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMGS5h07MWFbA3PJzWENWKh8zWE5f5QFdXVLqR4" crossorigin="anonymous">
     <style>
         body {
             background-color: #f8f9fa;
@@ -37,30 +21,42 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             color: #000;
         }
+
         @keyframes backgroundAnimation {
-            0% { filter: brightness(0.8); }
-            100% { filter: brightness(1); }
+            0% {
+                filter: brightness(0.8);
+            }
+
+            100% {
+                filter: brightness(1);
+            }
         }
+
         .navbar {
             background-color: rgba(0, 0, 0, 0.5);
         }
+
         .navbar-brand {
             color: #fff;
             font-weight: bold;
             font-size: 1.5rem;
             margin-right: 50px;
         }
+
         .navbar-nav {
             margin-left: auto;
         }
+
         .nav-link {
             margin-right: 20px;
         }
+
         .theme-icon {
             width: 20px;
             height: 20px;
             margin-right: 10px;
         }
+
         .card {
             border: none;
             border-radius: 10px;
@@ -70,28 +66,34 @@
             margin-top: 50px;
             animation: fadeInUp 1s ease forwards;
         }
+
         .card-header {
             background-color: #007bff;
             color: #fff;
             border-radius: 10px 10px 0 0;
             padding: 10px 20px;
         }
+
         .card-body {
             padding: 20px;
         }
+
         .get-own-heading {
             font-weight: bold;
             font-size: 1.5rem;
             text-align: center;
         }
+
         .form-control {
             border-radius: 5px;
             margin-bottom: 15px;
             transition: box-shadow 0.3s ease;
         }
+
         .form-control:focus {
             box-shadow: 0 0 10px rgba(0, 123, 255, 0.25);
         }
+
         .btn-primary {
             background-color: #007bff;
             border: none;
@@ -100,13 +102,16 @@
             font-size: 1rem;
             transition: background-color 0.3s ease;
         }
+
         .btn-primary:hover {
             background-color: #0056b3;
         }
+
         .alert {
             margin-top: 20px;
             border-radius: 5px;
         }
+
         .whatsapp-icon {
             position: fixed;
             bottom: 20px;
@@ -121,21 +126,39 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             animation: flare 1.5s infinite;
         }
+
         .whatsapp-icon img {
             width: 30px;
             height: 30px;
         }
+
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         @keyframes flare {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
         }
+
         section {
             padding: 20px 0;
         }
+
         footer {
             background-color: rgba(0, 0, 0, 0.5);
             color: #fff;
@@ -143,59 +166,72 @@
             padding: 20px 0;
             margin-top: 50px;
         }
+
         .footer-text {
             font-size: 1.2rem;
         }
+
         .emoji {
             font-size: 1.5rem;
             margin: 0 5px;
         }
+
         html {
             scroll-behavior: smooth;
         }
+
         .dark-mode {
             background-color: #121212;
             background-image: url('https://source.unsplash.com/1600x900/?night');
             color: #e0e0e0;
         }
+
         .dark-mode .navbar {
             background-color: rgba(255, 255, 255, 0.1);
         }
-        .dark-mode .navbar-brand, .dark-mode .nav-link {
+
+        .dark-mode .navbar-brand,
+        .dark-mode .nav-link {
             color: #e0e0e0;
         }
+
         .dark-mode .card {
             background-color: rgba(33, 33, 33, 0.9);
         }
+
         .dark-mode .card-header {
             background-color: #333;
         }
+
         .dark-mode .btn-primary {
             background-color: #1a73e8;
         }
-        
-
     </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="https://thumbs.dreamstime.com/z/gradient-fire-phoenix-bird-simple-logo-design-black-bird-simple-logo-design-simple-gradient-fire-phoenix-bird-logo-158339374.jpg?w=768" alt="Logo" width="50" height="50" class="mr-2">
+                <img src="https://thumbs.dreamstime.com/z/gradient-fire-phoenix-bird-simple-logo-design-black-bird-simple-logo-design-simple-gradient-fire-phoenix-bird-logo-158339374.jpg?w=768"
+                    alt="Logo" width="50" height="50" class="mr-2">
                 SHAYAK MAX
             </a>
             <div class="navbar-nav ml-auto">
                 <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle font-weight-bold" href="#" id="themeDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle font-weight-bold" href="#" id="themeDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Theme
                     </a>
                     <div class="dropdown-menu" aria-labelledby="themeDropdown">
                         <a class="dropdown-item" href="#" onclick="setTheme('light')">
-                            <img src="https://img.icons8.com/ios-filled/50/000000/sun.png" class="theme-icon" alt="Light Mode"> Light Mode
+                            <img src="https://img.icons8.com/ios-filled/50/000000/sun.png" class="theme-icon"
+                                alt="Light Mode"> Light Mode
                         </a>
                         <a class="dropdown-item" href="#" onclick="setTheme('dark')">
-                            <img src="https://img.icons8.com/ios-filled/50/000000/moon-symbol.png" class="theme-icon" alt="Dark Mode"> Dark Mode
+                            <img src="https://img.icons8.com/ios-filled/50/000000/moon-symbol.png" class="theme-icon"
+                                alt="Dark Mode"> Dark Mode
                         </a>
                     </div>
                 </div>
@@ -209,13 +245,16 @@
             <div class="row align-items-center">
                 <!-- Left Side: Image -->
                 <div class="col-lg-6">
-                    <img src="https://tse4.mm.bing.net/th?id=OIP.cwG9OIaBE7INyQ-cgeXydgHaEo&pid=Api&P=0&h=220" class="img-fluid rounded-circle" alt="Hero Image">
+                    <img src="https://tse4.mm.bing.net/th?id=OIP.cwG9OIaBE7INyQ-cgeXydgHaEo&pid=Api&P=0&h=220"
+                        class="img-fluid rounded-circle" alt="Hero Image">
                 </div>
                 <!-- Right Side: Content -->
                 <div class="col-lg-6 mt-4 mt-lg-0">
                     <div class="text-center text-lg-left">
                         <h1 class="display-4 text-uppercase">Welcome to Our Website</h1>
-                        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non hendrerit elit. Integer scelerisque pharetra est, id ultrices nisi vulputate non. Quisque id aliquam sapien. Duis ultrices lacinia libero, id commodo risus placerat eget.</p>
+                        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non hendrerit
+                            elit. Integer scelerisque pharetra est, id ultrices nisi vulputate non. Quisque id aliquam
+                            sapien. Duis ultrices lacinia libero, id commodo risus placerat eget.</p>
                     </div>
                 </div>
             </div>
@@ -223,124 +262,52 @@
     </section>
 
     <!-- Main Content -->
-    
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h1 class="mb-0 get-own-heading">Get Your Own</h1>
-                </div>
-                <div class="card-body">
-                    {% if messages %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h1 class="mb-0 get-own-heading">Get Your Own</h1>
+                    </div>
+                    <div class="card-body">
+                        {% if messages %}
                         {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }}" role="alert">
-                                {{ message }}
-                            </div>
+                        <div class="alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
                         {% endfor %}
-                    {% endif %}
-                    <form id="myForm" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="id_name">Name</label>
-                            {{ form.name }}
-                        </div>
-                        <div class="form-group">
-                            <label for="id_email">Email</label>
-                            {{ form.email }}
-                        </div>
-                        <div class="form-group">
-                            <label for="id_phone_number">Phone Number</label>
-                            {{ form.phone_number }}
-                        </div>
-                        <div class="form-group">
-                            <label for="id_language">Language</label>
-                            {{ form.language }}
-                        </div>
-                        <div class="form-group">
-                            <label for="id_content">Message</label>
-                            {{ form.content }}
-                        </div>
-                        <div class="form-group text-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
+                        {% endif %}
+                        <form id="myForm" method="post" action="{% url 'contact_form' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="id_name">Name</label>
+                                {{ form.name }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_email">Email</label>
+                                {{ form.email }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_phone_number">Phone Number</label>
+                                {{ form.phone_number }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_language">Language</label>
+                                {{ form.language }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_content">Message</label>
+                                {{ form.content }}
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-
-    <section class="explore-section section-padding" id="section_2">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h2 class="mb-4">Browse Topics</h1>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="design-tab-pane" role="tabpanel" aria-labelledby="design-tab" tabindex="0">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
-                                    <div class="custom-block bg-white shadow-lg">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Web Design</h5>
-                                                    <p class="mb-0">Topic Listing Template based on Bootstrap 5</p>
-                                                </div>
-                                                <span class="badge bg-design rounded-pill ms-auto">14</span>
-                                            </div>
-                                            <img src="{% static 'images/topics/undraw_Remote_design_team_re_urdx.png' %}" class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
-                                    <div class="custom-block bg-white shadow-lg">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Graphic</h5>
-                                                        <p class="mb-0">Lorem Ipsum dolor sit amet consectetur</p>
-                                                </div>
-                                                <span class="badge bg-design rounded-pill ms-auto">75</span>
-                                            </div>
-                                            <img src="{% static 'images/topics/undraw_Redesign_feedback_re_jvm0.png' %}" class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-12">
-                                    <div class="custom-block bg-white shadow-lg">
-                                            <div class="d-flex">
-                                                <div>
-                                                    <h5 class="mb-2">Logo Design</h5>
-                                                        <p class="mb-0">Lorem Ipsum dolor sit amet consectetur</p>
-                                                </div>
-                                                <span class="badge bg-design rounded-pill ms-auto">100</span>
-                                            </div>
-                                            <img src="{% static 'images/topics/colleagues-working-cozy-office-medium-shot.png' %}" class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-
-                               
-                                
-                                
-
-                            </div>
-                        </div>
-                    </div>
-            </div>
-        </div>
-    </section>
-
-
-
 
 
     <!-- Footer -->
@@ -369,11 +336,11 @@
             }
             setTimeout(() => {
                 document.body.classList.remove('theme-transition');
-            },1 );
+            }, 300);
         }
 
         // Check the theme preference on page load
-        window.onload = function() {
+        window.onload = function () {
             var theme = localStorage.getItem('theme');
             if (theme) {
                 setTheme(theme);
@@ -385,10 +352,6 @@
             setTheme(theme);
         }
     </script>
-    <style>
-        .theme-transition {
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-    </style>
 </body>
+
 </html>

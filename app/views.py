@@ -3,10 +3,13 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator
 from django.contrib import messages
 from .models import Contact, Payment
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from .forms import ContactForm
 import razorpay
 from django.conf import settings
+import logging
+
+logger = logging.getLogger(__name__)
 
 @csrf_exempt
 def contact_form(request):
@@ -14,7 +17,7 @@ def contact_form(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             contact = form.save()
-            return redirect('create_payment', contact_id=contact.id)  # Redirect to the payment process
+            return redirect('create_payment', contact_id=contact.id)
         else:
             for error in form.errors.values():
                 messages.error(request, error)
@@ -31,7 +34,7 @@ def create_payment(request, contact_id):
     amount_in_paisa = amount_in_rupees * 100  # Convert to paisa
 
     payment = client.order.create({
-        'amount': amount_in_paisa,  # amount in paisa
+        'amount': amount_in_paisa,
         'currency': 'INR',
         'payment_capture': 1
     })
@@ -48,7 +51,6 @@ def create_payment(request, contact_id):
         'amount_in_rupees': amount_in_rupees
     })
 
-
 @csrf_exempt
 def payment_success(request):
     if request.method == 'POST':
@@ -61,7 +63,8 @@ def payment_success(request):
             payment.razorpay_signature = data['razorpay_signature']
             payment.status = 'Success'
             payment.save()
-        except:
+        except razorpay.errors.SignatureVerificationError:
+            logger.error('Payment verification failed for order ID: %s', data.get('razorpay_order_id'))
             return JsonResponse({'error': 'Payment verification failed'}, status=400)
     return redirect('contact_form')
 
@@ -72,13 +75,12 @@ def contact_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    # Fetch related payment data
     for contact in page_obj:
         contact.payment = Payment.objects.filter(contact=contact).first()
 
     return render(request, 'contact_list.html', {'page_obj': page_obj})
 
-@csrf_exempt
+@csrf_protect
 def update_status(request, contact_id):
     if request.method == 'POST':
         contact = get_object_or_404(Contact, pk=contact_id)
@@ -88,4 +90,4 @@ def update_status(request, contact_id):
     return JsonResponse({'status': 'fail'}, status=400)
 
 def payment_issue(request):
-    return render(request, 'success.html')
+    return render(request, 'payment_issue.html')  # Ensure the template name matches the context

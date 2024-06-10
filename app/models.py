@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Contact(models.Model):
     STATUS_CHOICES = [
         ('Pending', 'Pending'),
@@ -17,7 +16,6 @@ class Contact(models.Model):
         ('Other', 'Other'),
     ]
 
-    
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone_number = models.CharField(max_length=15)
@@ -29,10 +27,19 @@ class Contact(models.Model):
     def __str__(self):
         return self.name
     
+    class Meta:
+        indexes = [
+            models.Index(fields=['email']),
+            models.Index(fields=['phone_number']),
+            models.Index(fields=['status']),
+        ]
+        ordering = ['-created_at']
+        verbose_name = "Contact"
+        verbose_name_plural = "Contacts"
 
 class Payment(models.Model):
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
-    razorpay_order_id = models.CharField(max_length=100)
+    razorpay_order_id = models.CharField(max_length=100, unique=True)
     razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
     razorpay_signature = models.CharField(max_length=100, blank=True, null=True)
     status = models.CharField(max_length=20, default='Pending')
@@ -40,3 +47,12 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.razorpay_order_id
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['razorpay_order_id']),
+            models.Index(fields=['status']),
+        ]
+        ordering = ['-created_at']
+        verbose_name = "Payment"
+        verbose_name_plural = "Payments"
