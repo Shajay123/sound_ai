@@ -11,6 +11,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
+def home(request):
+    return render(request, 'home.html')
+
+
 @csrf_exempt
 def contact_form(request):
     if request.method == 'POST':
@@ -66,7 +71,7 @@ def payment_success(request):
         except razorpay.errors.SignatureVerificationError:
             logger.error('Payment verification failed for order ID: %s', data.get('razorpay_order_id'))
             return JsonResponse({'error': 'Payment verification failed'}, status=400)
-    return redirect('contact_form')
+    return redirect('home')
 
 def contact_list(request):
     contacts = Contact.objects.all()
