@@ -53,6 +53,10 @@
             padding: 0.5em;
             font-size: 0.9em;
         }
+        .modal-body {
+            max-height: 70vh; /* Adjust as needed */
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -62,7 +66,6 @@
                 <h2 class="mb-0 text-center">List of Detail <span class="emoji">📋</span></h2>
             </div>
             <div class="card-body table-responsive">
-                
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -171,7 +174,7 @@
                 var button = $(event.relatedTarget); // Button that triggered the modal
                 var content = button.data('content'); // Extract info from data-* attributes
                 var modal = $(this);
-                modal.find('.modal-body #modalContent').text(content);
+                modal.find('.modal-body #modalContent').html(content); // Use .html() instead of .text()
             });
         });
 
