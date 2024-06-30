@@ -22,7 +22,7 @@ def contact_form(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             contact = form.save()
-            return redirect('create_payment', contact_id=contact.id)
+            return redirect('success', contact_id=contact.id)
         else:
             for error in form.errors.values():
                 messages.error(request, error)
@@ -96,3 +96,8 @@ def update_status(request, contact_id):
 
 def payment_issue(request):
     return render(request, 'payment_issue.html')  # Ensure the template name matches the context
+
+
+def success_view(request, contact_id):
+    contact = get_object_or_404(Contact, pk=contact_id)
+    return render(request, 'success.html', {'contact': contact})

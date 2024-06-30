@@ -10,4 +10,5 @@ urlpatterns = [
     path('payment-issue/', views.payment_issue, name='payment_issue'),
     path('create-payment/<int:contact_id>/', views.create_payment, name='create_payment'),
     path('payment-success/', views.payment_success, name='payment_success'),
+    path('success/<int:contact_id>/', views.success_view, name='success'),  # Success URL pattern
 ]
